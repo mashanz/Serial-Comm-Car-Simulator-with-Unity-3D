@@ -1,25 +1,33 @@
 #include <Arduino.h>
 
-// konversi dari radian ke derajat
-// sebab pada arduino, output fungsi atan() adalah radian
+/*********************************************************************
+ * konversi dari radian ke derajat
+ * sebab pada arduino, output fungsi atan() adalah radian
+ *********************************************************************/
 float toDegree(float radian){
     return (radian * 180 / PI);
 }
 
-// konversi dari derajat ke radian
-// sebab pada arduino fungsi tan() inputnya adalah radian (bukan derajat)
+/*********************************************************************
+ * konversi dari derajat ke radian
+ * sebab pada arduino fungsi tan() inputnya adalah radian (bukan derajat)
+ *********************************************************************/
 float toRadian(float derajat){
     return (derajat * PI / 180);
 }
 
-// menghitung jari-jari dengan Ackerman Steering Geometry
-// R = jarak_ban / tan(sudut_roda), sudut roda dalam derajat
+/*********************************************************************
+ * menghitung jari-jari dengan Ackerman Steering Geometry
+ * R = jarak_ban / tan(sudut_roda), sudut roda dalam derajat
+ *********************************************************************/
 float FindR(float sudut_roda){
     return (JARAK_BAN / tan( toRadian(sudut_roda) ));
 }
 
-// menghitung kemiringan berdasarkan kecepatan & sudut roda
-// kecepatan dalam km/jam, sudut roda dalam derajat
+/*********************************************************************
+ * menghitung kemiringan berdasarkan kecepatan & sudut roda
+ * kecepatan dalam km/jam, sudut roda dalam derajat
+ *********************************************************************/
 float FindAngle(float kecepatan, float sudut_roda){
     // konversi kecepatan menjadi m/s
     kecepatan = kecepatan * 1000/3600;
@@ -31,15 +39,23 @@ float FindAngle(float kecepatan, float sudut_roda){
     return toDegree(radian);
 }
 
-// sudut kemiringan kiri atau kanan
+/*********************************************************************
+ * sudut kemiringan kiri atau kanan
+ *********************************************************************/
 float getAngleRoll( float x, float z ){
     return (atan2(x,z)*180.0)/M_PI;
 }
 
+/*********************************************************************
+ * 
+ *********************************************************************/
 float getAnglePitch(float x, float y, float z){
     return -(atan2(x, sqrt(y*y + z*z))*180.0)/M_PI;
 }
 
+/*********************************************************************
+ *
+ *********************************************************************/
 void KalibrasiServo1(){
     Serial.println();
     Serial.println("Sudut Min: ");
@@ -107,6 +123,9 @@ void KalibrasiServo1(){
     Serial.println(maxServo1);
 }
 
+/*********************************************************************
+ *
+ *********************************************************************/
 void KalibrasiServo2(){
     Serial.println();
     Serial.println("Sudut Min: ");

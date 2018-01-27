@@ -1,11 +1,12 @@
+/*********************************************************************
+ *
+ *********************************************************************/
 #include <Arduino.h>
-
 #include <Wire.h>
 #include <MPU6050.h>
 #include <VarSpeedServo.h>
 
 MPU6050 mpu;
-
 Vector SensorAccel;
 
 // jika INPUTSERIAL = true data diinputkan dari serial
