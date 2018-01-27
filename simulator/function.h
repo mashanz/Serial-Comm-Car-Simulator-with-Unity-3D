@@ -193,4 +193,28 @@ void KalibrasiServo2(){
     Serial.println(midServo2);
     Serial.print(F("Sudut Maximum : "));
     Serial.println(maxServo2);
+
+}
+
+/*********************************************************************
+ * PARSING DIRECTION
+ *********************************************************************/
+char direction(String raw) {
+    return raw.charAt(0);
+}
+
+/*********************************************************************
+ * PARSING SPEED
+ *********************************************************************/
+int Speed(String raw) {
+    String string = String(raw.charAt(1) + raw.charAt(2) + raw.charAt(3));
+    return string.toInt();
+}
+
+/*********************************************************************
+ * PARSING WHEEL
+ *********************************************************************/
+int Wheel(String raw) {
+    String string = String(raw.charAt(4) + raw.charAt(5) + raw.charAt(6));
+    return string.toInt();
 }

@@ -24,7 +24,6 @@ void loop() {
             if( c == 'v' ){
                 Serial.read(); // buang char ':'
                 String d = Serial.readString();
-
                 float tspeed = d.toFloat();
                 if( tspeed < 0 ) tmpSpeed += tspeed;
                 else tmpSpeed = tspeed;
@@ -54,6 +53,7 @@ void loop() {
         tmpRoda  = map(dataRoda, 0, 1023, minRoda, maxRoda);
         tmpSpeed = map(dataSpeed, 0, 1023, minSpeed, maxSpeed);
     }
+    
     // -------------------
     // Proses kanan kiri
     // -------------------
