@@ -8,8 +8,8 @@ import csv
 
 connected   = False
 fieldnames  = ['time','send', 'recieve']
-port        = '/dev/tty.SLAB_USBtoUART'
-baud        = 115200
+port        = 'COM5'
+baud        = 19200
 timeout     = .1
 filelog     = 'com_time.csv'
 ser         = serial.Serial(port, baud, timeout = timeout)

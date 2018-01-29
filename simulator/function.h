@@ -199,7 +199,7 @@ void KalibrasiServo2(){
 /*********************************************************************
  * PARSING DIRECTION
  *********************************************************************/
-char direction(String raw) {
+char arah(String raw) {
     return raw.charAt(0);
 }
 
@@ -207,7 +207,7 @@ char direction(String raw) {
  * PARSING SPEED
  *********************************************************************/
 int Speed(String raw) {
-    String string = String(raw.charAt(1) + raw.charAt(2) + raw.charAt(3));
+    String string = String(raw.charAt(1)) + (raw.charAt(2)) + (raw.charAt(3));
     return string.toInt();
 }
 
@@ -215,6 +215,6 @@ int Speed(String raw) {
  * PARSING WHEEL
  *********************************************************************/
 int Wheel(String raw) {
-    String string = String(raw.charAt(4) + raw.charAt(5) + raw.charAt(6));
+    String string = String(raw.charAt(4)) + (raw.charAt(5)) + (raw.charAt(6));
     return string.toInt();
 }
