@@ -1,6 +1,15 @@
 import serial
 import time
 import csv
+from case import *
+
+#####################################################################
+# PARAMETER CONFIG
+#####################################################################
+
+port        = '/dev/tty.usbmodem1411'
+baud        = 9600
+looping     = 50
 
 #####################################################################
 # CONFIG FOR SERIAL
@@ -8,26 +17,9 @@ import csv
 
 connected   = False
 fieldnames  = ['time','send', 'recieve']
-port        = '/dev/tty.SLAB_USBtoUART'
-baud        = 115200
 timeout     = .1
 filelog     = 'com_time.csv'
 ser         = serial.Serial(port, baud, timeout = timeout)
-val         = 0
-com1        = "R"
-com2        = 100100100
-com3        = "D"
-
-#####################################################################
-# PARAMETER CONFIG
-#####################################################################
-def cases(argument):
-    switcher = {
-        0: "R000000",
-        1: "L100100",
-        2: "L000100",
-    }
-    return switcher.get(argument, "L000000")
 
 #####################################################################
 # FUNCTION OF SERIL
@@ -45,13 +37,11 @@ def write(time, send, recieve):
 
 def command(loops):
     moveCase = 0
+    val = 0
     while True:
         ticks = time.localtime(time.time())
         val += 1;
         send = cases(moveCase) + "\r\n"
-        #com2 = val
-        #com2 += 15
-        #send = str(com1) + str(com2) + str(com3) + "\r\n"
         sender = bytes(send, 'UTF-8')
 
         print("\n[KIRIM]===================================")
@@ -69,9 +59,11 @@ def command(loops):
                 pass
         print ("Restart")
         ser.flush()
-        if val>loops:
+        if val==loops:
             val=0
             moveCase += 1
+            if moveCase==3:
+                break
 
 #####################################################################
 # MAIN PROGRAM
@@ -79,4 +71,4 @@ def command(loops):
 
 if __name__=='__main__':
     reset()
-    command(val)
+    command(looping)
