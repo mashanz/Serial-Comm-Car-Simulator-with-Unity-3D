@@ -17,6 +17,11 @@ looping     = 50
 
 connected   = False
 fieldnames  = ['time','send', 'recieve']
+<<<<<<< HEAD
+=======
+port        = 'COM5'
+baud        = 19200
+>>>>>>> 922cc340ade212049bbf302eb63317e052e17997
 timeout     = .1
 filelog     = 'com_time.csv'
 ser         = serial.Serial(port, baud, timeout = timeout)

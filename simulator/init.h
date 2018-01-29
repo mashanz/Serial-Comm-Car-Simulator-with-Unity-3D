@@ -87,3 +87,8 @@ unsigned long lastchange_servo1 = 0;
 
 float lastSpeed = 0;
 unsigned long speed_timing = 0;
+
+char c;
+int spd;
+int stir;
+
