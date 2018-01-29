@@ -9,7 +9,7 @@ from case import *
 
 port        = '/dev/tty.usbmodem1411'
 baud        = 9600
-looping     = 50
+looping     = 1
 
 #####################################################################
 # CONFIG FOR SERIAL
@@ -17,11 +17,6 @@ looping     = 50
 
 connected   = False
 fieldnames  = ['time','send', 'recieve']
-<<<<<<< HEAD
-=======
-port        = 'COM5'
-baud        = 19200
->>>>>>> 922cc340ade212049bbf302eb63317e052e17997
 timeout     = .1
 filelog     = 'com_time.csv'
 ser         = serial.Serial(port, baud, timeout = timeout)
@@ -67,7 +62,7 @@ def command(loops):
         if val==loops:
             val=0
             moveCase += 1
-            if moveCase==3:
+            if moveCase==len(switcher):
                 break
 
 #####################################################################
