@@ -13,10 +13,22 @@ baud        = 115200
 timeout     = .1
 filelog     = 'com_time.csv'
 ser         = serial.Serial(port, baud, timeout = timeout)
-val         = 1000
+val         = 0
 com1        = "R"
 com2        = 100100100
 com3        = "D"
+
+#####################################################################
+# PARAMETER CONFIG
+#####################################################################
+def cases(argument):
+    switcher = {
+        0: "R000000",
+        1: "L100100",
+        2: "L000100",
+    }
+    return switcher.get(argument, "L000000")
+
 #####################################################################
 # FUNCTION OF SERIL
 #####################################################################
@@ -31,11 +43,12 @@ def write(time, send, recieve):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writerow({fieldnames[0]: time, fieldnames[1]: send, fieldnames[2]: recieve})
 
-def command(val):
+def command(loops):
+    moveCase = 0
     while True:
         ticks = time.localtime(time.time())
         val += 1;
-        send = str(val) + "\r\n"
+        send = cases(moveCase) + "\r\n"
         #com2 = val
         #com2 += 15
         #send = str(com1) + str(com2) + str(com3) + "\r\n"
@@ -56,6 +69,9 @@ def command(val):
                 pass
         print ("Restart")
         ser.flush()
+        if val>loops:
+            val=0
+            moveCase += 1
 
 #####################################################################
 # MAIN PROGRAM
