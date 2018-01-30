@@ -63,6 +63,7 @@ def command(loops):
             val=0
             moveCase += 1
             if moveCase==len(switcher):
+                ser.close()
                 break
 
 #####################################################################
