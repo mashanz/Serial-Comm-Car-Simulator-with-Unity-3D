@@ -7,9 +7,9 @@ from case import *
 # PARAMETER CONFIG
 #####################################################################
 
-port        = '/dev/tty.usbmodem1411'
+port        = 'COM8'
 baud        = 19200
-looping     = 1
+looping     = 100
 
 #####################################################################
 # CONFIG FOR SERIAL

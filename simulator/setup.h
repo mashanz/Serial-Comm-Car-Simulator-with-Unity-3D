@@ -1,5 +1,5 @@
 #include <Arduino.h>
-SoftwareSerial mySerial(10, 11); // RX, TX
+SoftwareSerial mySerial(11, 12); // RX, TX
 
 void setup() {
     pinMode(PIN_RODA,INPUT);
