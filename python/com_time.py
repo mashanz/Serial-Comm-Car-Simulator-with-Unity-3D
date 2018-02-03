@@ -81,7 +81,8 @@ if __name__=='__main__':
         print("  f: FINDING MIN/MAX SENSOR")
         print("  s: SIMULATION")
         print("")
-        pilihan = input("Pilih Mode: (t/f/s)")
+        pilihan = input("Pilih Mode: (t/f/s/p)")
+        ser     = serial.Serial(port, baud, timeout = timeout)
         if(pilihan=="t"):
             print("TUNNING")
             sender = bytes("T\r\n", 'UTF-8')
@@ -104,4 +105,3 @@ if __name__=='__main__':
             print("START SIMULATION")
             reset()
             command(looping)
-

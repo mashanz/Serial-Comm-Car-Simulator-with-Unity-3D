@@ -340,7 +340,7 @@ void findMinMaxSensor() {
     delay(1000);
 }
 
-void simulation(char c, int spd, int stir, float sudutPlatform) {
+void simulation(char c, int stir, int spd, float sudutPlatform) {
     Serial.print("C: "); Serial.print(c);
     Serial.print(" SPD: "); Serial.print(spd);
     Serial.print(" STR: "); Serial.println(stir);
