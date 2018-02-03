@@ -77,8 +77,8 @@ if __name__=='__main__':
         print("==========================")
         print(" MODE: ")
         print("  t: TUNNING")
-        print("  f: finding min/max sensor")
-        print("  s: TUNNING")
+        print("  f: FINDING min/max sensor")
+        print("  s: SIMULATION")
         print("")
         pilihan = input("Pilih Mode: (t/f/s)")
         if(pilihan=="t"):
