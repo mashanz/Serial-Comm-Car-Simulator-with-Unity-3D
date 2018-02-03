@@ -23,7 +23,7 @@ void loop() {
         case 'L':
         case 'R':
             // SIMULATION MODE
-            simulation(c,spd,stir);
+            simulation(c,stir,spd);
             break;
         case 'F':
             // FINDING MAX/MIN SENSOR
