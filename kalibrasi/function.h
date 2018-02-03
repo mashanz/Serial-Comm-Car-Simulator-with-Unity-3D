@@ -386,6 +386,10 @@ void simulation(char c, int stir, int spd, float sudutPlatform) {
 }
 
 void potentio() {
+    timing = millis();
+    SensorAccel = mpu.readNormalizeAccel();
+    sudutPlatforms = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
+    
     accumSpeed = 0;
     accumRoda  = 0;
     for( byte i=0; i<maxSampel; i++ ) {
@@ -394,14 +398,18 @@ void potentio() {
     }
     dataSpeed = accumSpeed / maxSampel;
     dataRoda  = accumRoda / maxSampel;
+
     tmpRoda  = map(dataRoda, 0, 1023, minRoda, maxRoda);
     tmpSpeed = map(dataSpeed, 0, 1023, minSpeed, maxSpeed);
+
     tmpRoda = constrain(tmpRoda, minRoda, maxRoda);
     tmpSpeed = constrain(tmpSpeed, minSpeed, maxSpeed);
+
     platformRoll = FindAngle(tmpSpeed,tmpRoda);
     if( platformRoll > 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMax,midServo1,minServo1);
     else if( platformRoll < 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMin,midServo1,maxServo1);
     else dataServo1 = midServo1;
+
     if( timing - speed_timing > 1000 ){        
         dataServo2 = map(tmpSpeed,minSpeed,maxSpeed,midServo2,minServo2);
         speedServo2 = 255;
@@ -412,12 +420,13 @@ void potentio() {
         lastSpeed = tmpSpeed;
         speed_timing = millis();
     }
+
     servo1.write(dataServo1,speedServo1);
     servo2.write(dataServo2,speedServo2);
     Serial.print("SudutRoda: "); Serial.print(tmpRoda);
     Serial.print("  Speed: "); Serial.print(tmpSpeed);
     Serial.print("  Sudut: "); Serial.print(platformRoll);
-    Serial.print("  SudutPlatform = "); Serial.print(sudutPlatform);
+    Serial.print("  SudutPlatform = "); Serial.print(sudutPlatforms);
     Serial.print("  Servo1 = "); Serial.print(dataServo1);
     Serial.print("  Servo2 = "); Serial.println(dataServo2);
 }

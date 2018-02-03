@@ -63,7 +63,7 @@ def command(loops):
             val=0
             moveCase += 1
             if moveCase==len(switcher):
-                ser.close()
+                #ser.close()
                 break
 
 #####################################################################
@@ -82,25 +82,22 @@ if __name__=='__main__':
         print("  s: SIMULATION")
         print("")
         pilihan = input("Pilih Mode: (t/f/s/p)")
-        ser     = serial.Serial(port, baud, timeout = timeout)
+        #ser     = serial.Serial(port, baud, timeout = timeout)
         if(pilihan=="t"):
             print("TUNNING")
             sender = bytes("T\r\n", 'UTF-8')
             ser.write(sender)
             ser.flush()
-            ser.close()
         elif(pilihan=="f"):
             print("FINDING")
             sender = bytes("F\r\n", 'UTF-8')
             ser.write(sender)
             ser.flush()
-            ser.close()
         elif(pilihan=='p'):
             print("POTENSIO")
             sender = bytes("P\r\n", 'UTF-8')
             ser.write(sender)
             ser.flush()
-            ser.close()
         elif(pilihan=="s"):
             print("START SIMULATION")
             reset()
