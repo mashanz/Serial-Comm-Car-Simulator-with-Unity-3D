@@ -71,5 +71,23 @@ def command(loops):
 #####################################################################
 
 if __name__=='__main__':
-    reset()
-    command(looping)
+    print("==========================")
+    print("        SIMULATOR         ")
+    print("==========================")
+    print(" MODE: ")
+    print("  t: TUNNING")
+    print("  f: finding min/max sensor")
+    print("  s: TUNNING")
+    print("")
+    pilihan = input("Pilih Mode: (t/f/s)")
+    if(pilihan=="t"):
+        print("TUNNING")
+        sender = bytes("T\r\n", 'UTF-8')
+    elif(pilihan=="f"):
+        print("FINDING")
+        sender = bytes("F\r\n", 'UTF-8')
+    elif(pilihan=="s"):
+        print("START SIMULATION")
+        reset()
+        command(looping)
+
