@@ -13,7 +13,7 @@ VarSpeedServo servo2; // depan/belakang
 char c;
 int spd;
 int stir;
-float sudutPlatform;
+float sudutPlatforms;
 boolean INPUTSERIAL             = true;
 const byte PIN_RODA             = A0;
 const byte PIN_SPEED            = A1;
