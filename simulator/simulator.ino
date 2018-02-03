@@ -11,11 +11,11 @@
  *********************************************************************/
 String raw = "";
 void loop() {
-    //timing = millis();
-    // baca data akselerasi dari sensor
-    //SensorAccel = mpu.readNormalizeAccel();
-    // hitung sudut kemiringan platform
-    //sudutPlatform = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
+   // timing = millis();
+   // baca data akselerasi dari sensor
+   // SensorAccel = mpu.readNormalizeAccel();
+   // hitung sudut kemiringan platform
+   // sudutPlatform = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
     
 
     // MODE PLATFORM
@@ -25,15 +25,21 @@ void loop() {
             c = arah(raw);
             spd = Speed(raw);
             stir = Wheel(raw);
-            //Serial.println(c);
-            //Serial.println(spd);
-            //Serial.println(stir);
         }
     
+    Serial.print(c);
+    Serial.print(spd);
+    Serial.println(stir);
+
     tmpRoda = constrain(stir, minRoda, maxRoda);
     tmpSpeed = constrain(spd, minSpeed, maxSpeed);
     
     platformRoll = FindAngle(tmpSpeed,tmpRoda);
+    Serial.print("  PlatformRoll = "); Serial.print(platformRoll);
+    //platformRoll  = 0;
+    if (c=='L') platformRoll = -80;
+    else if (c=='R') platformRoll = 80;
+    Serial.print("  PlatformRoll = "); Serial.println(platformRoll);
 
     if ( platformRoll > 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMax,midServo1,minServo1);
     else if ( platformRoll < 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMin,midServo1,maxServo1);
@@ -62,8 +68,7 @@ void loop() {
     Serial.print("  Sudut: "); Serial.print(platformRoll);
     Serial.print("  SudutPlatform = "); Serial.print(sudutPlatform);
     Serial.print("  Servo1 = "); Serial.print(dataServo1);
-    Serial.print("  Servo2 = "); Serial.print(dataServo2);
-    Serial.print("  PlatformRoll = "); Serial.println(platformRoll);
+    Serial.print("  Servo2 = "); Serial.println(dataServo2);
 
 
     } else { // MODE: CALIBRATION

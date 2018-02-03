@@ -9,7 +9,7 @@ from case import *
 
 port        = 'COM8'
 baud        = 19200
-looping     = 100
+looping     = 20
 
 #####################################################################
 # CONFIG FOR SERIAL
