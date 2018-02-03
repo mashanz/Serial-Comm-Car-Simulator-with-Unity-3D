@@ -287,107 +287,100 @@ void tunningPotensio(){
     Serial.println();
 }
 
+
 /*********************************************************************
- * SETUP SERVO
+ * FIND MAXIMUM MINIMUM SENSOR
  *********************************************************************/
-void setupServo(){
-    // koneksi ke mpu
-    while(!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G)){
-        Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
-        delay(500);
-    }
-    
-    // show info
-    Serial.println();
-    Serial.println();
-    Serial.println(F("============================================"));
+void findMinMaxSensor() {
+    Serial.println(F("=========================================="));
     Serial.println(F("Perbandingan Sudut Servo => Sudut Platform"));
-    Serial.println(F("============================================"));
-    // mencari hubungan perbandigan antara
-    // sudut aktual dan sudut servo samping
-    // ------------------------------------
-    // ------------------------------------
-    // kalibrasi servo 1
-    // ------------------------------------
-    // ------------------------------------    
-    KalibrasiServo1();
-    // sudut minimum servo
+    Serial.println(F("=========================================="));
+
+    //KalibrasiServo1();
     servo1.write(minServo1);
     delay(2000);
-    // baca akeselerasi dr sersor yg sudah dinormalisasi
     SensorAccel = mpu.readNormalizeAccel();
-    // hitung sudut kemiringan kekiri/kanan
     minSudutRoll = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
-    Serial.print(F("Sudut Min : "));
-    Serial.print(minServo1);
-    Serial.print(F(" => "));
-    Serial.println(minSudutRoll);
-    // sudut 0 derajat servo
+    Serial.print(F("Sudut Min : ")); Serial.print(minServo1); Serial.print(F(" => ")); Serial.println(minSudutRoll);
+
     servo1.write(midServo1);
     delay(2000);
-    // baca akeselerasi dr sersor yg sudah dinormalisasi
     SensorAccel = mpu.readNormalizeAccel();
-    // hitung sudut kemiringan kekiri/kanan
     midSudutRoll = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
-    Serial.print(F("Sudut Mid : "));
-    Serial.print(midServo1);
-    Serial.print(F(" => "));
-    Serial.println(midSudutRoll);
-    // sudut maksimum servo
+    Serial.print(F("Sudut Mid : ")); Serial.print(midServo1); Serial.print(F(" => ")); Serial.println(midSudutRoll);
+
     servo1.write(maxServo1);
     delay(2000);
-    // baca akeselerasi dr sersor yg sudah dinormalisasi
     SensorAccel = mpu.readNormalizeAccel();
-    // hitung sudut kemiringan kekiri/kanan
     maxSudutRoll = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
-    Serial.print(F("Sudut Max : "));
-    Serial.print(maxServo1);
-    Serial.print(F(" => "));
-    Serial.println(maxSudutRoll);
+    Serial.print(F("Sudut Max : ")); Serial.print(maxServo1); Serial.print(F(" => ")); Serial.println(maxSudutRoll);
+    
     servo1.write(midServo1);
-    //Serial.print(F("Step Correction1 : "));
-    //Serial.println(stepCorrection1);
-    // ------------------------------------
-    // ------------------------------------
-    // kalibrasi servo 2
-    // ------------------------------------
-    // ------------------------------------
-    KalibrasiServo2();
-    // turunkan tuas servo untuk mendapatkan sudut minimal
+
+    //KalibrasiServo2();
     servo2.write(minServo2);
     delay(2000);
-    // baca akeselerasi dr sersor yg sudah dinormalisasi
     SensorAccel = mpu.readNormalizeAccel();
-    // hitung sudut kemiringan kekiri/kanan
     minSudutPitch = getAnglePitch(SensorAccel.XAxis,SensorAccel.YAxis,SensorAccel.ZAxis);
-    Serial.print(F("Sudut Min : "));
-    Serial.print(minServo2);
-    Serial.print(F(" => "));
-    Serial.println(minSudutPitch);
-    // sesuaikan untuk sudut 0
+    Serial.print(F("Sudut Min : ")); Serial.print(minServo2); Serial.print(F(" => ")); Serial.println(minSudutPitch); 
+
     servo2.write(midServo2);
     delay(2000);
-    // baca akeselerasi dr sersor yg sudah dinormalisasi
     SensorAccel = mpu.readNormalizeAccel();
-    // hitung sudut kemiringan kekiri/kanan
     midSudutPitch = getAnglePitch(SensorAccel.XAxis,SensorAccel.YAxis,SensorAccel.ZAxis);
-    Serial.print(F("Sudut Mid : "));
-    Serial.print(midServo2);
-    Serial.print(F(" => "));
-    Serial.println(midSudutPitch);
-    // sesuaikan untuk sudut maksimal
+    Serial.print(F("Sudut Mid : ")); Serial.print(midServo2); Serial.print(F(" => ")); Serial.println(midSudutPitch);
+
     servo2.write(maxServo2);
     delay(2000);
-    // baca akeselerasi dr sersor yg sudah dinormalisasi
     SensorAccel = mpu.readNormalizeAccel();
-    // hitung sudut kemiringan kekiri/kanan
     maxSudutPitch = getAnglePitch(SensorAccel.XAxis,SensorAccel.YAxis,SensorAccel.ZAxis);
-    Serial.print(F("Sudut Max : "));
-    Serial.print(maxServo2);
-    Serial.print(F(" => "));
-    Serial.println(maxSudutPitch);
-    //Serial.print(F("Step Correction2 : "));
-    //Serial.println(stepCorrection2);
+    Serial.print(F("Sudut Max : ")); Serial.print(maxServo2); Serial.print(F(" => ")); Serial.println(maxSudutPitch);
+
     servo2.write(midServo2);
     delay(1000);
+}
+
+void simulation(char c, int spd, int stir) {
+    Serial.print("C: "); Serial.print(c);
+    Serial.print(" SPD: "); Serial.print(spd);
+    Serial.print(" STR: "); Serial.println(stir);
+
+    tmpRoda = constrain(stir, minRoda, maxRoda);
+    tmpSpeed = constrain(spd, minSpeed, maxSpeed);
+    
+    platformRoll = FindAngle(tmpSpeed,tmpRoda);
+    Serial.print("  PlatformRoll = "); Serial.print(platformRoll);
+    //platformRoll  = 0;
+    if (c=='L') platformRoll = -80;
+    else if (c=='R') platformRoll = 80;
+    Serial.print("  PlatformRoll = "); Serial.println(platformRoll);
+
+    if ( platformRoll > 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMax,midServo1,minServo1);
+    else if ( platformRoll < 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMin,midServo1,maxServo1);
+    else dataServo1 = midServo1;
+
+    if ( timing - speed_timing > 1000 ){
+        dataServo2 = map(tmpSpeed,minSpeed,maxSpeed,midServo2,minServo2);
+        speedServo2 = 255;
+
+        float selisihSpeed = tmpSpeed-lastSpeed;
+
+        if( selisihSpeed > 0 ) if( selisihSpeed > 20 ) dataServo2 = minServo2;
+        else if(selisihSpeed < 0) if( selisihSpeed < -20 ) dataServo2 = maxServo2;
+        else speedServo2 = 50;
+
+        lastSpeed = tmpSpeed;
+        speed_timing = millis();
+    }
+
+    servo1.write(dataServo1,speedServo1);
+    servo2.write(dataServo2,speedServo2);
+    
+    Serial.print("arah: "); Serial.print(c);
+    Serial.print("  SudutRoda: "); Serial.print(tmpRoda);
+    Serial.print("  Speed: "); Serial.print(tmpSpeed);
+    Serial.print("  Sudut: "); Serial.print(platformRoll);
+    Serial.print("  SudutPlatform: "); Serial.print(sudutPlatform);
+    Serial.print("  Servo1: "); Serial.print(dataServo1);
+    Serial.print("  Servo2: "); Serial.println(dataServo2);
 }

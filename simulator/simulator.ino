@@ -66,9 +66,9 @@ void loop() {
     Serial.print("  SudutRoda: "); Serial.print(tmpRoda);
     Serial.print("  Speed: "); Serial.print(tmpSpeed);
     Serial.print("  Sudut: "); Serial.print(platformRoll);
-    Serial.print("  SudutPlatform = "); Serial.print(sudutPlatform);
-    Serial.print("  Servo1 = "); Serial.print(dataServo1);
-    Serial.print("  Servo2 = "); Serial.println(dataServo2);
+    Serial.print("  SudutPlatform: "); Serial.print(sudutPlatform);
+    Serial.print("  Servo1: "); Serial.print(dataServo1);
+    Serial.print("  Servo2: "); Serial.println(dataServo2);
 
 
     } else { // MODE: CALIBRATION
