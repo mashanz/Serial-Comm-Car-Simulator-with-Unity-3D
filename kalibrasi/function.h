@@ -340,7 +340,7 @@ void findMinMaxSensor() {
     delay(1000);
 }
 
-void simulation(char c, int spd, int stir) {
+void simulation(char c, int spd, int stir, float sudutPlatform) {
     Serial.print("C: "); Serial.print(c);
     Serial.print(" SPD: "); Serial.print(spd);
     Serial.print(" STR: "); Serial.println(stir);
@@ -383,4 +383,41 @@ void simulation(char c, int spd, int stir) {
     Serial.print("  SudutPlatform: "); Serial.print(sudutPlatform);
     Serial.print("  Servo1: "); Serial.print(dataServo1);
     Serial.print("  Servo2: "); Serial.println(dataServo2);
+}
+
+void potentio() {
+    accumSpeed = 0;
+    accumRoda  = 0;
+    for( byte i=0; i<maxSampel; i++ ) {
+        accumSpeed += analogRead(PIN_SPEED);
+        accumRoda += analogRead(PIN_RODA);
+    }
+    dataSpeed = accumSpeed / maxSampel;
+    dataRoda  = accumRoda / maxSampel;
+    tmpRoda  = map(dataRoda, 0, 1023, minRoda, maxRoda);
+    tmpSpeed = map(dataSpeed, 0, 1023, minSpeed, maxSpeed);
+    tmpRoda = constrain(tmpRoda, minRoda, maxRoda);
+    tmpSpeed = constrain(tmpSpeed, minSpeed, maxSpeed);
+    platformRoll = FindAngle(tmpSpeed,tmpRoda);
+    if( platformRoll > 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMax,midServo1,minServo1);
+    else if( platformRoll < 0 ) dataServo1 = map(platformRoll,midSudutRoll,defaultMin,midServo1,maxServo1);
+    else dataServo1 = midServo1;
+    if( timing - speed_timing > 1000 ){        
+        dataServo2 = map(tmpSpeed,minSpeed,maxSpeed,midServo2,minServo2);
+        speedServo2 = 255;
+        float selisihSpeed = tmpSpeed-lastSpeed;
+        if( selisihSpeed > 0 ) if( selisihSpeed > 20 ) dataServo2 = minServo2;
+        else if(selisihSpeed < 0) if( selisihSpeed < -20 ) dataServo2 = maxServo2;
+        else speedServo2 = 50;
+        lastSpeed = tmpSpeed;
+        speed_timing = millis();
+    }
+    servo1.write(dataServo1,speedServo1);
+    servo2.write(dataServo2,speedServo2);
+    Serial.print("SudutRoda: "); Serial.print(tmpRoda);
+    Serial.print("  Speed: "); Serial.print(tmpSpeed);
+    Serial.print("  Sudut: "); Serial.print(platformRoll);
+    Serial.print("  SudutPlatform = "); Serial.print(sudutPlatform);
+    Serial.print("  Servo1 = "); Serial.print(dataServo1);
+    Serial.print("  Servo2 = "); Serial.println(dataServo2);
 }

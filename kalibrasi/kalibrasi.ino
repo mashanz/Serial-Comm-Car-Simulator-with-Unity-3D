@@ -12,7 +12,7 @@
 void loop() {
 	timing = millis();
     SensorAccel = mpu.readNormalizeAccel();
-    float sudutPlatform = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
+    sudutPlatform = getAngleRoll(SensorAccel.YAxis,SensorAccel.ZAxis);
 
     if( mySerial.available() ){
     	raw = mySerial.readStringUntil('\r\n');
@@ -23,7 +23,7 @@ void loop() {
         case 'L':
         case 'R':
             // SIMULATION MODE
-            simulation(c,stir,spd);
+            simulation(c,stir,spd,sudutPlatform);
             break;
         case 'F':
             // FINDING MAX/MIN SENSOR
@@ -33,6 +33,10 @@ void loop() {
             // STARTING TUNNING
             KalibrasiServo1();
             KalibrasiServo2();
+            break;
+        case 'P';
+            // POTENSIOMETER
+            while(1) {potentio();}
             break;
         }
     }
